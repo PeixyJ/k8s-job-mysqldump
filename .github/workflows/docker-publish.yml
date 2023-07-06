@@ -44,11 +44,6 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: peixinyi/company-wechat
-      - name:
-        uses: actions/download-artifact@v2
-        with:
-          name: company-wechat-jar
-          path: jar
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
@@ -74,11 +69,6 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: swr.cn-north-4.myhuaweicloud.com/zj-eternalcloud/company-wechat
-      - name:
-        uses: actions/download-artifact@v2
-        with:
-          name: company-wechat-jar
-          path: jar
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
