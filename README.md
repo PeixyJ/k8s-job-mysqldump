@@ -11,7 +11,7 @@
 docker run \
     --rm \
     -e MYSQL_HOST=数据库地址 \
-    -e 
+    -e MYSQL_PORT=3306 \
     -e MYSQL_USER=root \
     -e MYSQL_PASSWORD=123456 \
     -e ENABLE_WEBDAV=false \
@@ -30,6 +30,16 @@ docker build -t mysqldump:xxxx .
 
 ### Kubernetes
 
+该文件配置了一个每5分钟备份一次数据库后上传至Webdav
+
+Secret配置的`Value`需要进行`Base64`编码
+
+[备份文件](backups-job.yaml)
+
+```bash
+k apply -f backs-job.yaml
+```
+
 ## 备份相关
 
 | 变量 | 描述 | 默认值 |
@@ -40,10 +50,10 @@ docker build -t mysqldump:xxxx .
 
 | 变量 | 描述 | 默认值 |
 |---|---|---|
-|BACKUPS_DATABASES|需要备份的数据库|()|
-|MYSQL_HOST|数据库地址|()|
-|MYSQL_USER|数据库账户|()|
-|MYSQL_PASSWORD|数据库密码|()|
+|BACKUPS_DATABASES|需要备份的数据库空格分割||
+|MYSQL_HOST|数据库地址||
+|MYSQL_USER|数据库账户||
+|MYSQL_PASSWORD|数据库密码||
 |MYSQL_PORT|数据库端口|3306|
 
 ## Webdav

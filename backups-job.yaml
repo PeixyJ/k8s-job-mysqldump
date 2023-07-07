@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: crontab
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: crontab
+            image: peixinyi/k8s-job-mysqldump
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: MYSQL_PORT
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: MYSQL_PASSWORD
+            - name: ENABLE_WEBDAV
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: ENABLE_WEBDAV
+            - name: WEBDAV_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: WEBDAV_PATH
+            - name: WEBDAV_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: WEBDAV_USER
+            - name: WEBDAV_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: WEBDAV_PASSWORD
+            - name: BACKUPS_DATABASES
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-backup
+                  key: BACKUPS_DATABASES
+          restartPolicy: OnFailure
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-backup
+type: Opaque
+data:
+  MYSQL_HOST: xxx
+  MYSQL_PORT: xxx
+  MYSQL_USER: xxx
+  MYSQL_PASSWORD: xxx
+  ENABLE_WEBDAV: xxx
+  WEBDAV_PATH: xxx
+  WEBDAV_USER: xxx
+  WEBDAV_PASSWORD: xxx
+  BACKUPS_DATABASES: xxx
